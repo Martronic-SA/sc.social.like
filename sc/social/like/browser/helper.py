@@ -45,6 +45,8 @@ class HelperView(BrowserView):
 
     @memoize
     def enabled(self, view=None):
+        if view and self.context_state.is_view_template() and not IViewView.providedBy(view):
+            alsoProvides(view, IViewView)
         if view and not IViewView.providedBy(view):
             return False
         enabled_portal_types = self.enabled_portal_types()
